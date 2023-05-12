@@ -1,4 +1,4 @@
-module github.com/panpito/youtube/design_pattern/prototype
+module github.com/panpito/youtube/design_pattern
 
 go 1.20
 
