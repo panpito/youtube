@@ -3,10 +3,10 @@ package prototype_publisher
 import (
 	"fmt"
 	"github.com/google/uuid"
+	"github.com/panpito/youtube/design_pattern/prototype/prototype"
 	"golang.org/x/text/cases"
 	"golang.org/x/text/language"
 	"log"
-	"tutorial/design_pattern/draft/prototype"
 )
 
 type IPublisher interface {

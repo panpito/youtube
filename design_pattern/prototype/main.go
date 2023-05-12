@@ -1,10 +1,10 @@
 package main
 
 import (
+	"github.com/panpito/youtube/design_pattern/prototype/prototype"
+	"github.com/panpito/youtube/design_pattern/prototype/publisher"
 	"golang.org/x/text/language"
 	"log"
-	"tutorial/design_pattern/draft/prototype"
-	"tutorial/design_pattern/draft/publisher"
 )
 
 func main() {
