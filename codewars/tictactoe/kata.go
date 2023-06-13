@@ -9,6 +9,7 @@ func IsSolved(grid [3][3]int) int {
 	byCol := make(map[int][]Cell)
 
 	for i, row := range grid {
+		log.Print("row: ", row)
 		for j, cellValue := range row {
 			c := Cell{
 				value: cellValue,
@@ -23,11 +24,11 @@ func IsSolved(grid [3][3]int) int {
 				byRow[i] = append(rowCells, c)
 			}
 
-			colCells := byCol[i]
-			if rowCells == nil {
-				byCol[i] = []Cell{c}
+			colCells := byCol[j]
+			if colCells == nil {
+				byCol[j] = []Cell{c}
 			} else {
-				byCol[i] = append(colCells, c)
+				byCol[j] = append(colCells, c)
 			}
 
 			cells = append(cells, c)
@@ -57,25 +58,28 @@ func IsSolved(grid [3][3]int) int {
 	results := make([]Result, 0)
 
 	for _, i := range []int{0, 1, 2} {
-		r := make(Result)
+		rowResult := make(Result)
 		for _, c := range board.byRow[i] {
-			r[c.value] = true
+			rowResult[c.value] = true
 		}
-		results = append(results, r)
+		log.Printf("result for row %v, %v:\t\t %v, %v", i, board.byRow[i], rowResult, len(rowResult))
+		results = append(results, rowResult)
 
 		colResult := make(Result)
 		for _, c := range board.byCol[i] {
 			colResult[c.value] = true
 		}
+		log.Printf("result for col %v, %v:\t\t %v", i, board.byCol[i], colResult)
 		results = append(results, colResult)
 	}
 
 	for _, i := range []int{0, 1} {
-		r := make(Result)
+		diagResult := make(Result)
 		for _, c := range board.byDiag[i] {
-			r[c.value] = true
+			diagResult[c.value] = true
 		}
-		results = append(results, r)
+		log.Printf("result for dia %v, %v:\t\t %v", i, board.byDiag[i], diagResult)
+		results = append(results, diagResult)
 	}
 
 	//map[int]bool{
@@ -87,9 +91,10 @@ func IsSolved(grid [3][3]int) int {
 	for _, result := range results {
 		if len(result) == 1 {
 			var key int
-			for k := range results {
+			for k := range result {
 				key = k
 			}
+			log.Print(result, " ", key)
 
 			switch key {
 			case 1:
@@ -101,7 +106,7 @@ func IsSolved(grid [3][3]int) int {
 			}
 		}
 
-		for key := range results {
+		for key := range result {
 			if key == 0 {
 				boardState.emptySlot = true
 			}
@@ -113,6 +118,10 @@ func IsSolved(grid [3][3]int) int {
 	// build the final response
 
 	if boardState.xWon && boardState.oWon {
+		return 0
+	}
+
+	if !boardState.xWon && !boardState.oWon && !boardState.emptySlot {
 		return 0
 	}
 
